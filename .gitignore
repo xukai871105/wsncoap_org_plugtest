@@ -1,0 +1,7 @@
+.recommenders/
+.metadata/
+.settings/
+bin/
+.classpath
+.project
+Californium.properties
