@@ -1,2 +1,2 @@
-# wsncoap_org_plugtest
+# 说明
 国内CoAP测试主机
