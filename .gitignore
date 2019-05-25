@@ -1,7 +1,5 @@
-.recommenders/
-.metadata/
-.settings/
-bin/
-.classpath
+target/
+.idea/
 .project
+*.iml
 Californium.properties
