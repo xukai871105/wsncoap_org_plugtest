@@ -4,7 +4,7 @@ package org.wsncoap.embedded;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
+
 
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.coap.CoAP.Type;
@@ -15,6 +15,8 @@ import org.eclipse.californium.core.network.config.NetworkConfig;
 import org.eclipse.californium.core.network.interceptors.MessageTracer;
 import org.eclipse.californium.core.network.interceptors.OriginTracer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wsncoap.embedded.resources.*;
 
 
@@ -25,13 +27,12 @@ public class PlugtestServer extends CoapServer {
 
     // exit codes for runtime errors
     public static final int ERR_INIT_FAILED = 1;
-    
-    // allows port configuration in Californium.properties
+
     private static final int COAP_PORT = NetworkConfig.getStandard().getInt(NetworkConfig.Keys.COAP_PORT);
+    private static final Logger log = LoggerFactory.getLogger(CoapServer.class);
 
     public static void main(String[] args) {
-        
-        // create server
+
         try {
             PlugtestServer server = new PlugtestServer();
             server.addEndpoints();
@@ -39,10 +40,9 @@ public class PlugtestServer extends CoapServer {
             // add special interceptor for message traces
             for (Endpoint ep:server.getEndpoints()) {
                 ep.addInterceptor(new MessageTracer());
-                // Eclipse IoT metrics
                 ep.addInterceptor(new OriginTracer());
             }
-            System.out.println(PlugtestServer.class.getSimpleName()+" listening on port " + COAP_PORT);
+            log.info("{} listening on port {}", PlugtestServer.class.getSimpleName(), COAP_PORT);
         } catch (Exception e) {
             System.err.printf("Failed to create "+PlugtestServer.class.getSimpleName()+": %s\n", e.getMessage());
             System.err.println("Exiting");
@@ -68,9 +68,9 @@ public class PlugtestServer extends CoapServer {
         }
     }
     
-    public PlugtestServer() throws SocketException {
+    public PlugtestServer() {
         
-        NetworkConfig.getStandard() // used for plugtest
+        NetworkConfig.getStandard()
             .setInt(NetworkConfig.Keys.MAX_MESSAGE_SIZE, 64) 
             .setInt(NetworkConfig.Keys.PREFERRED_BLOCK_SIZE, 64)
             .setInt(NetworkConfig.Keys.NOTIFICATION_CHECK_INTERVAL_COUNT, 4)

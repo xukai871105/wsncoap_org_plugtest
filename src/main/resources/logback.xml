@@ -4,19 +4,19 @@
 		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
 			by default -->
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} %level [%logger{0}]: %msg%n</pattern>
+			<pattern>%d{HH:mm:ss} %level [%logger{0}]: %msg%n</pattern>
 		</encoder>
 	</appender>
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>logs/anonymorigin.log</file>
+		<file>logs/application.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!-- roll-over monthly, or if filesize exceeds -->
-			<fileNamePattern>logs/anonymorigin-%d{yyyy-MM}.%i.log</fileNamePattern>
+			<fileNamePattern>logs/application-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<!-- each file should be at most 10MB, keep 200 files worth of history, but at most 2GB -->
-			<maxFileSize>10MB</maxFileSize>
-			<maxHistory>200</maxHistory>
-			<totalSizeCap>2GB</totalSizeCap>
+			<maxFileSize>20MB</maxFileSize>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>1GB</totalSizeCap>
 		</rollingPolicy>
 
 		<encoder>
@@ -34,6 +34,7 @@
 	<!-- the level of the root level is set to DEBUG by default. -->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE"/>
 	</root>
 
 </configuration>
